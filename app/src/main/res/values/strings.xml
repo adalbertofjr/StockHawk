@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Stock Hawk</string>
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
@@ -33,5 +33,9 @@
     <string name="toast_no_connectivity">Will refresh when network available.</string>
     <string name="percentage">percentage</string>
     <string name="dollar">dollar</string>
+
+    <!-- A11y -->
+    <string name="a11y_stock">Stock: <xliff:g id="stock">%1$s</xliff:g></string>
+
 
 </resources>

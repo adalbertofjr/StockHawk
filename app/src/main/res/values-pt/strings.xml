@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Stock Hawk</string>
+
     <string name="dialog_add">Adicionar</string>
     <string name="dialog_cancel">Cancelar</string>
     <string name="dialog_hint">Sigla (e.g. GOOG)</string>
     <string name="dialog_title">Adicionar Ação</string>
+
     <string name="error_no_network">Sem conexão com a rede! Carregaremos as informações quandoa conexão estiver disponível.</string>
     <string name="error_no_stocks">Não há ações adicionadas! Pressione o botão flutuante para adicionar.</string>
+
     <string name="toast_no_connectivity">Atualizaremos quando a conexão  estiver disponível.</string>
     <string name="toast_stock_added_no_connectivity">Ação %s adicionada. Atualizaremos quando a conexão estiver disponível.</string>
+
     <string name="action_change_units">Modo de visualização</string>
+
     <string name="percentage">porcentagem</string>
     <string name="dollar">moeda</string>
+
+    <!-- A11y -->
+    <string name="a11y_stock">Ação: <xliff:g id="stock">%1$s</xliff:g></string>
+
 </resources>
