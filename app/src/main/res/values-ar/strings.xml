@@ -1,0 +1,23 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- App texts -->
+    <string name="app_name">Stock Hawk</string>
+    <string name="percentage">percentage</string>
+    <string name="dollar">dollar</string>
+    <string name="action_change_units">@string/pref_display_mode_key</string>
+
+    <!-- Dialog to add stock -->
+    <string name="dialog_title">Add Stock</string>
+    <string name="dialog_hint">Symbol (e.g. GOOG)</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_add">Add</string>
+
+    <!-- Messages notifications -->
+    <string name="error_no_network">No network connectivity! Will load stock cursor when the network is available.</string>
+    <string name="error_no_stocks">No stocks added! Hit the floating action button to add one.</string>
+    <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
+    <string name="toast_no_connectivity">Will refresh when network available.</string>
+
+    <!-- A11y -->
+    <string name="a11y_stock">Stock: <xliff:g id="stock">%1$s</xliff:g></string>
+
+</resources>
