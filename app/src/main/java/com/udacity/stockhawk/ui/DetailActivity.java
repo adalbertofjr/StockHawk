@@ -10,19 +10,27 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static android.R.attr.data;
 
 /**
  * DetailActivity
@@ -45,6 +53,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private DecimalFormat dollarFormat;
     private DecimalFormat dollarFormatWithPlus;
     private DecimalFormat percentageFormat;
+    private LineChart mChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +61,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_detail);
 
         ButterKnife.bind(this);
+
+        // in this example, a LineChart is initialized from xml
+        mChart = (LineChart) findViewById(R.id.chart);
 
         dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
         dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
@@ -119,20 +131,29 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         String history = cursor.getString(Contract.Quote.POSITION_HISTORY);
-        //getHistory(history);
+        getHistory(history);
     }
 
     private void getHistory(String history) {
         String[] dateHistorys = history.split("\n");
         Map<Long, Float> pricesHistory = new HashMap<>();
 
+        List<Entry> entries = new ArrayList<Entry>();
+
         for (String priceHistory : dateHistorys) {
             long date = Long.parseLong(priceHistory.split(",")[0]);
             float price = Float.parseFloat(priceHistory.split(",")[1]);
             pricesHistory.put(date, price);
+            entries.add(new Entry(data, price));
         }
 
-        Timber.i("Date: " + pricesHistory.toString());
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        /*dataSet.setColor(...);
+        dataSet.setValueTextColor(...);*/
+
+        LineData lineData = new LineData(dataSet);
+        mChart.setData(lineData);
+        mChart.invalidate(); // refresh
     }
 
     @Override
