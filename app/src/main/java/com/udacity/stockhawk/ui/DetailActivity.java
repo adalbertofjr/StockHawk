@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.EntryXComparator;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
@@ -21,6 +22,7 @@ import com.udacity.stockhawk.data.PrefUtils;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -29,8 +31,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
-
-import static android.R.attr.data;
 
 /**
  * DetailActivity
@@ -144,15 +144,21 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             long date = Long.parseLong(priceHistory.split(",")[0]);
             float price = Float.parseFloat(priceHistory.split(",")[1]);
             pricesHistory.put(date, price);
-            entries.add(new Entry(data, price));
+            entries.add(new Entry(date, price));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        /*dataSet.setColor(...);
-        dataSet.setValueTextColor(...);*/
+        Collections.sort(entries, new EntryXComparator());
 
+        LineDataSet dataSet = new LineDataSet(entries, mSymbol.getText().toString()); // add entries to dataset
         LineData lineData = new LineData(dataSet);
+
         mChart.setData(lineData);
+        mChart.getXAxis().setDrawLabels(false);
+        mChart.getAxisLeft().setDrawLabels(false);
+        mChart.getLegend().setEnabled(true);
+        mChart.getDescription().setEnabled(false);
+
+
         mChart.invalidate(); // refresh
     }
 
