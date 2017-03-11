@@ -5,22 +5,6 @@
     <string name="dollar">dollar</string>
     <string name="action_change_units">@string/pref_display_mode_key</string>
 
-
-    <!-- Preferences keys  -->
-    <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
-    <string name="pref_stocks_key" translatable="false">stocks</string>
-    <string name="pref_display_mode_key" translatable="false">displayMode</string>
-    <string name="pref_display_mode_default" translatable="false">@string/pref_display_mode_percentage_key</string>
-    <string name="pref_display_mode_absolute_key" translatable="false">absolute</string>
-    <string name="pref_display_mode_percentage_key" translatable="false">percentage</string>
-
-    <!-- Default stock values -->
-    <string name="default_stocks_yahoo" translatable="false">YHOO</string>
-    <string name="default_stocks_apple" translatable="false">AAPL</string>
-    <string name="default_stocks_microsoft" translatable="false">MSFT</string>
-    <string name="default_stocks_facebook" translatable="false">FB</string>
-
-
     <!-- Dialog to add stock -->
     <string name="dialog_title">Add Stock</string>
     <string name="dialog_hint">Symbol (e.g. GOOG)</string>
