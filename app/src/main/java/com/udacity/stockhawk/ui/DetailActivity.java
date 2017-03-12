@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -20,7 +21,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
-import com.udacity.stockhawk.data.PrefUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -52,12 +52,10 @@ public class DetailActivity extends AppCompatActivity
     @BindView(R.id.price)
     TextView mPrice;
 
-    @BindView(R.id.change)
-    TextView mChange;
+    @BindView(R.id.date)
+    TextView mDate;
 
     private DecimalFormat dollarFormat;
-    private DecimalFormat dollarFormatWithPlus;
-    private DecimalFormat percentageFormat;
     private LineChart mChart;
 
     @Override
@@ -71,13 +69,13 @@ public class DetailActivity extends AppCompatActivity
         mChart = (LineChart) findViewById(R.id.chart);
         mChart.setOnChartValueSelectedListener(this);
 
+        mChart.getXAxis().setDrawLabels(false);
+        mChart.getAxisLeft().setDrawLabels(false);
+        mChart.getLegend().setEnabled(true);
+        mChart.getDescription().setEnabled(false);
+        mChart.animateX(2500);
+
         dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus.setPositivePrefix("+$");
-        percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
-        percentageFormat.setMaximumFractionDigits(2);
-        percentageFormat.setMinimumFractionDigits(2);
-        percentageFormat.setPositivePrefix("+");
 
         getSupportLoaderManager().initLoader(STOCK_LOADER, null, this);
     }
@@ -117,25 +115,6 @@ public class DetailActivity extends AppCompatActivity
 
         mPrice.setText(dollarFormat.format(cursor.getFloat(Contract.Quote.POSITION_PRICE)));
 
-        float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
-        float percentageChange = cursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
-
-        if (rawAbsoluteChange > 0) {
-            mChange.setBackgroundResource(R.drawable.percent_change_pill_green);
-        } else {
-            mChange.setBackgroundResource(R.drawable.percent_change_pill_red);
-        }
-
-        String change = dollarFormatWithPlus.format(rawAbsoluteChange);
-        String percentage = percentageFormat.format(percentageChange / 100);
-
-        if (PrefUtils.getDisplayMode(this)
-                .equals(getString(R.string.pref_display_mode_absolute_key))) {
-            mChange.setText(change);
-        } else {
-            mChange.setText(percentage);
-        }
-
         String history = cursor.getString(Contract.Quote.POSITION_HISTORY);
         getHistory(history);
     }
@@ -159,11 +138,8 @@ public class DetailActivity extends AppCompatActivity
         LineData lineData = new LineData(dataSet);
 
         mChart.setData(lineData);
-        mChart.getXAxis().setDrawLabels(false);
-        mChart.getAxisLeft().setDrawLabels(false);
-        mChart.getLegend().setEnabled(true);
-        mChart.getDescription().setEnabled(false);
-
+        mDate.setText(DateUtils.formatDateTime(this, (long) lineData.getXMax(), DateUtils.FORMAT_NUMERIC_DATE));
+        mPrice.setText(dollarFormat.format(lineData.getYMax()));
 
         mChart.invalidate(); // refresh
     }
@@ -176,6 +152,8 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         Log.i("Entry selected", e.toString());
+        mDate.setText(DateUtils.formatDateTime(this, (long) e.getX(), DateUtils.FORMAT_NUMERIC_DATE));
+        mPrice.setText(dollarFormat.format(e.getY()));
     }
 
     @Override
