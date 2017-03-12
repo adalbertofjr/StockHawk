@@ -81,6 +81,36 @@ public class DetailActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Timber.d("onCreateLoader started...");
         String symbol = getIntent().getExtras().getString(Intent.EXTRA_TEXT);
@@ -106,7 +136,9 @@ public class DetailActivity extends AppCompatActivity
             return;
         }
 
-        cursor.moveToNext();
+        if (!cursor.isLast()) {
+            cursor.moveToNext();
+        }
 
         String symbol = cursor.getString(Contract.Quote.POSITION_SYMBOL);
 
