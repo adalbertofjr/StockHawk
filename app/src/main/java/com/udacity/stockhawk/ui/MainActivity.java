@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
         Intent detailIntent = new Intent(this, DetailActivity.class);
-        detailIntent.putExtra(Intent.EXTRA_TEXT, symbol);
+        detailIntent.setData(Contract.Quote.makeUriForStock(symbol));
         startActivity(detailIntent);
     }
 
@@ -153,13 +153,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         adapter.setCursor(data);
     }
 
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         swipeRefreshLayout.setRefreshing(false);
         adapter.setCursor(null);
     }
-
 
     private void setDisplayModeMenuItemIcon(MenuItem item) {
         if (PrefUtils.getDisplayMode(this)

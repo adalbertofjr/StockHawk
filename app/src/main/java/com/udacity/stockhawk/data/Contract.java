@@ -39,13 +39,13 @@ public final class Contract {
                 COLUMN_PERCENTAGE_CHANGE,
                 COLUMN_HISTORY
         );
-        static final String TABLE_NAME = "quotes";
+        public static final String TABLE_NAME = "quotes";
 
         public static Uri makeUriForStock(String symbol) {
             return URI.buildUpon().appendPath(symbol).build();
         }
 
-        static String getStockFromUri(Uri queryUri) {
+        public static String getStockFromUri(Uri queryUri) {
             return queryUri.getLastPathSegment();
         }
 

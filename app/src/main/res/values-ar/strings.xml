@@ -17,6 +17,10 @@
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
 
+    <!-- Strings related to Widgets -->
+    <string name="empty_stock_list">No Stock Information Available</string>
+    <string name="title_widget_detail">Stock Hawk Details</string>
+
     <!-- A11y -->
     <string name="a11y_stock">Stock: <xliff:g id="stock">%1$s</xliff:g></string>
 
