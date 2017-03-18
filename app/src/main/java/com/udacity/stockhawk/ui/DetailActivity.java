@@ -1,7 +1,7 @@
 package com.udacity.stockhawk.ui;
 
-import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -35,6 +35,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.udacity.stockhawk.R.id.symbol;
+
 /**
  * DetailActivity
  * Created by Adalberto Fernandes Júnior on 11/03/17.
@@ -46,7 +48,7 @@ public class DetailActivity extends AppCompatActivity
         OnChartValueSelectedListener {
     private static final int STOCK_LOADER = 0;
 
-    @BindView(R.id.symbol)
+    @BindView(symbol)
     TextView mSymbol;
 
     @BindView(R.id.price)
@@ -113,17 +115,17 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Timber.d("onCreateLoader started...");
-        String symbol = getIntent().getExtras().getString(Intent.EXTRA_TEXT);
+        Uri uriStockSymbol = getIntent().getData();
 
-        if (symbol == null) {
+        if (uriStockSymbol == null) {
             return null;
         }
 
         String selection = Contract.Quote.COLUMN_SYMBOL + "=?";
-        String[] selectionArgs = new String[]{symbol};
+        String[] selectionArgs = new String[]{Contract.Quote.getStockFromUri(uriStockSymbol)};
 
         return new CursorLoader(this,
-                Contract.Quote.URI,
+                uriStockSymbol,
                 Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
                 selection,
                 selectionArgs,
