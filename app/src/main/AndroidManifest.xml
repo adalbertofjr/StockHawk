@@ -25,6 +25,7 @@
 
         <activity
             android:name=".ui.DetailActivity"
+            android:label="@string/title_widget_detail"
             android:parentActivityName=".ui.MainActivity" />
 
         <service
