@@ -111,7 +111,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 int changeIdView = R.id.change;
 
                 views.setTextViewText(symbolIdView, symbol);
-                views.setContentDescription(symbolIdView, symbol);
+                views.setContentDescription(symbolIdView, getString(R.string.a11y_stock, symbol));
                 views.setTextViewText(priceIdView, price);
                 views.setContentDescription(priceIdView, price);
 
