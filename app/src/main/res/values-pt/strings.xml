@@ -17,6 +17,7 @@
     <string name="error_no_stocks">Não há ações adicionadas! Pressione o botão flutuante para adicionar.</string>
     <string name="toast_no_connectivity">Atualizaremos quando a conexão  estiver disponível.</string>
     <string name="toast_stock_added_no_connectivity">Ação %s adicionada. Atualizaremos quando a conexão estiver disponível.</string>
+    <string name="error_no_stocks_add">Não há informação de ação disponível para <xliff:g id="stock">%1$s</xliff:g></string>
 
     <!-- Strings related to Widgets -->
     <string name="empty_stock_list">Não há informação de ação disponível</string>

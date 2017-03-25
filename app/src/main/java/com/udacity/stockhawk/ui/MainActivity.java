@@ -150,6 +150,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (data.getCount() != 0) {
             error.setVisibility(View.GONE);
         }
+
+        String stockUnknow = PrefUtils.getStockUnknow(this);
+
+        if (stockUnknow != null) {
+            Toast.makeText(this, getString(R.string.error_no_stocks_add, stockUnknow), Toast.LENGTH_LONG).show();
+            PrefUtils.resetStockUnknow(this);
+        }
+
         adapter.setCursor(data);
     }
 
