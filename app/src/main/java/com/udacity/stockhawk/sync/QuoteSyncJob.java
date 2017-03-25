@@ -107,6 +107,7 @@ public final class QuoteSyncJob {
                 } else {
                     Timber.d("No information available to " + symbol);
                     PrefUtils.removeStock(context, symbol);
+                    PrefUtils.addStockUnknow(context, symbol);
                 }
             }
 
