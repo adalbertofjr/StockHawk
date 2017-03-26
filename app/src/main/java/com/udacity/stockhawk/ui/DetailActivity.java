@@ -122,7 +122,10 @@ public class DetailActivity extends AppCompatActivity
         }
 
         String selection = Contract.Quote.COLUMN_SYMBOL + "=?";
-        String[] selectionArgs = new String[]{Contract.Quote.getStockFromUri(uriStockSymbol)};
+        String symbol = Contract.Quote.getStockFromUri(uriStockSymbol);
+        String[] selectionArgs = new String[]{symbol};
+
+        getSupportActionBar().setTitle(symbol);
 
         return new CursorLoader(this,
                 uriStockSymbol,
