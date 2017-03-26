@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -24,6 +25,9 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +48,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({NETWORK_STATUS_OK, NETWORK_STATUS_DOWN, STOCK_OK, STOCK_NO_OK, STOCK_INFORMATION_OK, STOCK_INFORMATION_NO_OK})
+    public @interface StockHawkStatus {
+    }
+
+    public static final int NETWORK_STATUS_OK = 0;
+    public static final int NETWORK_STATUS_DOWN = 1;
+    public static final int STOCK_OK = 2;
+    public static final int STOCK_NO_OK = 3;
+    public static final int STOCK_INFORMATION_OK = 4;
+    public static final int STOCK_INFORMATION_NO_OK = 5;
+
 
     @Override
     public void onClick(String symbol) {
@@ -88,11 +105,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    private boolean networkUp() {
+    private
+    @StockHawkStatus
+    int networkUp() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting() == true ? NETWORK_STATUS_OK : NETWORK_STATUS_DOWN;
     }
 
     @Override
@@ -100,14 +119,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         QuoteSyncJob.syncImmediately(this);
 
-        if (!networkUp() && adapter.getItemCount() == 0) {
+        @StockHawkStatus int networkStatus = networkUp();
+        @StockHawkStatus int adapterItemCount = adapter.getItemCount() > 0 ? STOCK_INFORMATION_OK : STOCK_INFORMATION_NO_OK;
+        @StockHawkStatus int stockPrefSize = PrefUtils.getStocks(this).size() == 0 ? STOCK_NO_OK : STOCK_OK;
+
+        if (networkStatus == NETWORK_STATUS_DOWN && adapterItemCount == STOCK_INFORMATION_NO_OK) {
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_network));
             error.setVisibility(View.VISIBLE);
-        } else if (!networkUp()) {
+        } else if (networkStatus == NETWORK_STATUS_DOWN) {
             swipeRefreshLayout.setRefreshing(false);
             Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
-        } else if (PrefUtils.getStocks(this).size() == 0) {
+        } else if (stockPrefSize == STOCK_NO_OK) {
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
@@ -123,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     void addStock(String symbol) {
         if (symbol != null && !symbol.isEmpty()) {
 
-            if (networkUp()) {
+            @StockHawkStatus int networkStatus = networkUp();
+
+            if (networkStatus == NETWORK_STATUS_OK) {
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
