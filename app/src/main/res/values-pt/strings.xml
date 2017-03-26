@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- App texts -->
-    <string name="app_name">Stock Hawk</string>
     <string name="percentage">porcentagem</string>
     <string name="dollar">moeda</string>
     <string name="action_change_units">Modo de visualização</string>
@@ -25,5 +24,4 @@
 
     <!-- A11y -->
     <string name="a11y_stock">Ação: <xliff:g id="stock">%1$s</xliff:g></string>
-
 </resources>

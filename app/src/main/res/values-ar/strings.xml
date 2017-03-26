@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- App texts -->
-    <string name="app_name">Stock Hawk</string>
     <string name="percentage">percentage</string>
     <string name="dollar">dollar</string>
-    <string name="action_change_units">@string/pref_display_mode_key</string>
+    <string name="action_change_units">Display Mode</string>
 
     <!-- Dialog to add stock -->
     <string name="dialog_title">Add Stock</string>
@@ -24,5 +24,4 @@
 
     <!-- A11y -->
     <string name="a11y_stock">Stock: <xliff:g id="stock">%1$s</xliff:g></string>
-
 </resources>

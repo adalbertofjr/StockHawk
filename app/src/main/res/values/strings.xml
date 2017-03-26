@@ -1,9 +1,9 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- App texts -->
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
     <string name="percentage">percentage</string>
     <string name="dollar">dollar</string>
-    <string name="action_change_units">@string/pref_display_mode_key</string>
+    <string name="action_change_units">Display Mode</string>
 
 
     <!-- Preferences keys  -->
