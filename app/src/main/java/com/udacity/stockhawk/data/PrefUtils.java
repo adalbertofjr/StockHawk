@@ -61,6 +61,30 @@ public final class PrefUtils {
         editStockPref(context, symbol, false);
     }
 
+    public static void addStockUnknow(Context context, String symbol) {
+        String key = context.getString(R.string.pref_stocks_unknow_key);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, symbol);
+        editor.apply();
+    }
+
+    public static void resetStockUnknow(Context context) {
+        String key = context.getString(R.string.pref_stocks_unknow_key);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
+    public static String getStockUnknow(Context context) {
+        String key = context.getString(R.string.pref_stocks_unknow_key);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(key, null);
+    }
+
     public static String getDisplayMode(Context context) {
         String key = context.getString(R.string.pref_display_mode_key);
         String defaultValue = context.getString(R.string.pref_display_mode_default);
