@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity
         String[] dateHistorys = history.split("\n");
         Map<Long, Float> pricesHistory = new HashMap<>();
 
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
 
         for (String priceHistory : dateHistorys) {
             long date = Long.parseLong(priceHistory.split(",")[0]);
@@ -172,8 +172,8 @@ public class DetailActivity extends AppCompatActivity
         LineData lineData = new LineData(dataSet);
 
         mChart.setData(lineData);
-        mDate.setText(DateUtils.formatDateTime(this, (long) lineData.getXMax(), DateUtils.FORMAT_NUMERIC_DATE));
-        mPrice.setText(dollarFormat.format(lineData.getYMax()));
+        mDate.setText(DateUtils.formatDateTime(this, (long) entries.get(entries.size() - 1).getX(), DateUtils.FORMAT_NUMERIC_DATE));
+        mPrice.setText(dollarFormat.format(entries.get(entries.size() - 1).getY()));
 
         mChart.invalidate(); // refresh
     }
